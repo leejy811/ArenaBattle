@@ -4,6 +4,9 @@
 
 #include "ArenaBattle.h"
 #include "GameFramework/Pawn.h"
+#include "GameFramework/FloatingPawnMovement.h"
+#include "InputMappingContext.h"
+#include "InputActionValue.h"
 #include "ABPawn.generated.h"
 
 UCLASS()
@@ -28,4 +31,27 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	UPROPERTY(VisibleAnywhere, Category = Collision)
+	UCapsuleComponent* Capsule;
+
+	UPROPERTY(VisibleAnywhere, Category = Visual)
+	USkeletalMeshComponent* Mesh;
+
+	UPROPERTY(VisibleAnywhere, Category = Movement)
+	UFloatingPawnMovement* Movement;
+
+	UPROPERTY(VisibleAnywhere, Category = Camera)
+	USpringArmComponent* SpringArm;
+
+	UPROPERTY(VisibleAnywhere, Category = Camera)
+	UCameraComponent* Camera;
+
+	UPROPERTY(VisibleAnywhere, Category = Input)
+	UInputMappingContext* DefaultMappingContext;
+
+	UPROPERTY(VisibleAnywhere, Category = Input)
+	UInputAction* MoveAction;
+
+private:
+	void Move(const FInputActionValue& Value);
 };

@@ -61,6 +61,9 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = Input)
 	UInputAction* ViewChangeAction;
 
+	UPROPERTY(VisibleAnywhere, Category = Input)
+	UInputAction* JumpAction;
+
 private:
 	void Move(const FInputActionValue& Value);
 	void Look(const FInputActionValue& Value);

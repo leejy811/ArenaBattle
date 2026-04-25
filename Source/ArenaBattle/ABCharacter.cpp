@@ -59,10 +59,17 @@ AABCharacter::AABCharacter()
 		ViewChangeAction = IA_VIEWCHANGE.Object;
 	}
 
+	static ConstructorHelpers::FObjectFinder<UInputAction> IA_JUMP(TEXT("/Script/EnhancedInput.InputAction'/Game/Book/Input/IA_Jump.IA_Jump'"));
+	if (IA_JUMP.Succeeded())
+	{
+		JumpAction = IA_JUMP.Object;
+	}
+
 	SetControlMode(EControlMode::GTA);
 
 	ArmLengthSpeed = 3.0f;
 	ArmRotationSpeed = 10.0f;
+	GetCharacterMovement()->JumpZVelocity = 800.0f;
 }
 
 // Called when the game starts or when spawned
@@ -115,6 +122,7 @@ void AABCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Completed, this, &AABCharacter::Move);
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AABCharacter::Look);
 		EnhancedInputComponent->BindAction(ViewChangeAction, ETriggerEvent::Started, this, &AABCharacter::ViewChange);
+		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Started, this, &AABCharacter::Jump);
 	}
 }
 

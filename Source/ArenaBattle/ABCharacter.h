@@ -43,6 +43,8 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	virtual void PostInitializeComponents() override;
+
 	UPROPERTY(VisibleAnywhere, Category = Camera)
 	USpringArmComponent* SpringArm;
 
@@ -52,6 +54,41 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = Input)
 	UInputMappingContext* DefaultMappingContext;
 
+//Animation
+private:
+	UFUNCTION()
+	void OnAttackMontageEnded(UAnimMontage* Montage, bool bInterrupted);
+
+	void AttackStartComboState();
+	void AttackEndComboState();
+
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category = Attack, meta = (AllowPrivateAccess = true))
+	bool IsAttacking;
+
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category = Attack, meta = (AllowPrivateAccess = true))
+	bool CanNextCombo;
+
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category = Attack, meta = (AllowPrivateAccess = true))
+	bool IsComboInputOn;
+
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category = Attack, meta = (AllowPrivateAccess = true))
+	int32 CurrentCombo;
+
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category = Attack, meta = (AllowPrivateAccess = true))
+	int32 MaxCombo;
+
+	UPROPERTY()
+	class UABAnimInstance* ABAnim;
+
+//Input Methods
+private:
+	void Move(const FInputActionValue& Value);
+	void Look(const FInputActionValue& Value);
+	void ViewChange();
+	void Attack();
+
+//Input Actions
+private:
 	UPROPERTY(VisibleAnywhere, Category = Input)
 	UInputAction* MoveAction;
 
@@ -64,9 +101,6 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = Input)
 	UInputAction* JumpAction;
 
-private:
-	void Move(const FInputActionValue& Value);
-	void Look(const FInputActionValue& Value);
-
-	void ViewChange();
+	UPROPERTY(VisibleAnywhere, Category = Input)
+	UInputAction* AttackAction;
 };

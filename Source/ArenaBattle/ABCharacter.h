@@ -8,6 +8,8 @@
 #include "InputActionValue.h"
 #include "ABCharacter.generated.h"
 
+DECLARE_MULTICAST_DELEGATE(FOnAttackEndDelegate);
+
 UCLASS()
 class ARENABATTLE_API AABCharacter : public ACharacter
 {
@@ -24,7 +26,8 @@ protected:
 	enum class EControlMode : uint8
 	{
 		GTA = 0,
-		DIABLO
+		DIABLO,
+		NPC
 	};
 
 	void SetControlMode(EControlMode NewControlMode);
@@ -41,6 +44,7 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	virtual void PostInitializeComponents() override;
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
+	virtual void PossessedBy(AController* NewController) override;
 
 	bool CanSetWeapon() { return (nullptr == CurrentWeapon); }
 	void SetWeapon(class AABWeapon* NewWeapon);
@@ -62,6 +66,9 @@ public:
 
 	UPROPERTY(VisibleAnywhere, Category = Input)
 	UInputMappingContext* DefaultMappingContext;
+
+	void Attack();
+	FOnAttackEndDelegate OnAttackEnd;
 
 //Attack
 private:
@@ -101,7 +108,6 @@ private:
 	void Move(const FInputActionValue& Value);
 	void Look(const FInputActionValue& Value);
 	void ViewChange();
-	void Attack();
 
 //Input Actions
 private:

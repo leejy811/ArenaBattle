@@ -125,4 +125,10 @@ private:
 
 	UPROPERTY(VisibleAnywhere, Category = Input)
 	UInputAction* AttackAction;
+
+private:
+	void OnAssetLoadCompleted();
+
+	FSoftObjectPath CharacterAssetToLoad = FSoftObjectPath(nullptr);
+	TSharedPtr<struct FStreamableHandle> AssetStreamingHandle;
 };

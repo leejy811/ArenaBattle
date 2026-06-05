@@ -22,6 +22,8 @@ public:
 	ECharacterState GetCharacterState() const;
 
 	int32 GetExp() const;
+	float GetFinalAttackRange() const;
+	float GetFinalAttackDamage() const;
 
 protected:
 	// Called when the game starts or when spawned
@@ -50,7 +52,7 @@ public:
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 	virtual void PossessedBy(AController* NewController) override;
 
-	bool CanSetWeapon() { return (nullptr == CurrentWeapon); }
+	bool CanSetWeapon() { return true; }
 	void SetWeapon(class AABWeapon* NewWeapon);
 
 	UPROPERTY(VisibleAnywhere, Category = Weapon)
